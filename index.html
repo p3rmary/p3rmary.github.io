@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mary — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Fraunces:ital,opsz,wght@0,9..144,200;0,9..144,300;1,9..144,200;1,9..144,300&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg:         #fdf6f8;
+    --surface:    #fff0f4;
+    --ink:        #2a1a20;
+    --muted:      #b08090;
+    --soft:       #7a5060;
+    --accent:     #d4467a;
+    --accent-lt:  rgba(212,70,122,0.07);
+    --accent-mid: rgba(212,70,122,0.18);
+    --line:       rgba(212,70,122,0.12);
+    --grid:       rgba(212,70,122,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    min-height: 100vh;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .container {
+    max-width: 660px;
+    margin: 0 auto;
+    padding: 88px 36px 120px;
+  }
+
+  /* ── Header ── */
+  header {
+    margin-bottom: 72px;
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.05s forwards;
+  }
+
+  .tag {
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .tag::before {
+    content: '';
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(3rem, 8vw, 4.2rem);
+    font-weight: 200;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .bio-line {
+    margin-top: 20px;
+    font-size: 0.78rem;
+    color: var(--soft);
+    line-height: 1.75;
+    max-width: 420px;
+  }
+
+  /* ── Sections ── */
+  section {
+    margin-bottom: 56px;
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  section:nth-of-type(1) { animation: rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.20s forwards; }
+  section:nth-of-type(2) { animation: rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.30s forwards; }
+  section:nth-of-type(3) { animation: rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.40s forwards; }
+  section:nth-of-type(4) { animation: rise 0.7s cubic-bezier(0.22,1,0.36,1) 0.50s forwards; }
+
+  .label {
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  /* ── Cards ── */
+  .card-list { display: flex; flex-direction: column; gap: 2px; }
+
+  .card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px 16px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.82rem;
+    transition: background 0.18s, border-color 0.18s, transform 0.18s;
+  }
+
+  .card:hover {
+    background: var(--accent-lt);
+    border-color: var(--accent-mid);
+    transform: translateX(4px);
+  }
+
+  .card-left { display: flex; flex-direction: column; gap: 4px; }
+  .card-title { font-weight: 400; }
+
+  .card-meta {
+    font-size: 0.68rem;
+    color: var(--muted);
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+    font-weight: 200;
+  }
+
+  .card-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 5px; }
+
+  .chip {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1px solid var(--accent-mid);
+    padding: 2px 7px;
+    border-radius: 2px;
+    background: var(--accent-lt);
+  }
+
+  .arrow {
+    color: var(--muted);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    transition: color 0.18s, transform 0.18s;
+  }
+
+  .card:hover .arrow {
+    color: var(--accent);
+    transform: translate(3px, -2px);
+  }
+
+  /* ── Tools grid ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 2px;
+  }
+
+  .tool {
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: var(--soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  .tool:hover {
+    background: var(--accent-lt);
+    border-color: var(--accent-mid);
+    color: var(--accent);
+  }
+
+  .tool-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent-mid);
+    flex-shrink: 0;
+    transition: background 0.15s;
+  }
+
+  .tool:hover .tool-dot { background: var(--accent); }
+
+  /* ── Footer ── */
+  footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    animation: rise 0.7s ease 0.65s forwards;
+  }
+
+  .footer-links { display: flex; gap: 24px; }
+
+  .footer-links a {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-right {
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Animation ── */
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 0.85em;
+    background: var(--accent);
+    vertical-align: middle;
+    margin-left: 4px;
+    animation: blink 1.2s step-end infinite;
+    border-radius: 1px;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .container { padding: 56px 20px 80px; }
+    .tools-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <p class="tag">Data Analyst &amp; Engineer</p>
+    <h1>Hi, I'm<br><em>Mary</em><span class="cursor"></span></h1>
+    <p class="bio-line">
+      I turn messy data into clean, reliable pipelines and dashboards that
+      people actually use. I like working close to the data — from raw
+      ingestion to the final chart on the wall.
+    </p>
+  </header>
+
+  <section>
+    <p class="label">Dashboards</p>
+    <div class="card-list">
+      <a class="card" href="https://dune.com/permary/polymarket-fees-liquidity-tracker" target="_blank">
+        <div class="card-left">
+          <span class="card-title">Polymarket fees & Liquidity tracker</span>
+          <span class="card-meta">Tracks the core economic flows of Polymarket, focusing on trading fees, revenue distribution, and maker supply incentives.</span>
+          <div class="card-tags">
+            <span class="chip">Dune</span>
+            <span class="chip">TrinoSQL</span>
+            <span class="chip">EVM</span>
+          </div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="card" href="https://dune.com/permary/hyperlend" target="_blank">
+        <div class="card-left">
+          <span class="card-title">Hyperlend Lending dashboard</span>
+          <span class="card-meta">Provides an overview of protocol activity and growth.</span>
+          <div class="card-tags">
+            <span class="chip">Dune</span>
+            <span class="chip">TrinoSQL</span>
+            <span class="chip">Python</span>
+            <span class="chip">Smart contract analysis</span>
+            <span class="chip">EVM</span>
+          </div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+      <a class="card" href="https://aave-v3-portfolio-dashboard.streamlit.app" target="_blank">
+        <div class="card-left">
+          <span class="card-title">Aave V3 Portfolio Dashboard</span>
+          <span class="card-meta">Real-time blockchain dashboard for monitoring Aave V3 lending positions, portfolio health, and liquidation risk through intuitive visualizations for non-technical users.</span>
+          <div class="card-tags">
+            <span class="chip">Streamlit</span>
+            <span class="chip">Pyplot</span>
+             <span class="chip">EVM</span>
+             <span class="chip">GraphQL</span>
+          </div>
+        </div>
+        <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+<section>
+  <p class="label">Projects</p>
+  <div class="card-list">
+    <a class="card" href="https://github.com/p3rmary/Uniswap" target="_blank">
+      <div class="card-left">
+        <span class="card-title">Uniswap Data clean up</span>
+        <span class="card-meta">This project implements a fully automated analytics pipeline that extracts, transforms, and visualizes Uniswap pool swap activity.</span>
+        <div class="card-tags">
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">Python</span>
+          <span class="chip">Supabase</span>
+          <span class="chip">EVM</span>
+        </div>
+      </div>
+      <span class="arrow">↗</span>
+    </a>
+
+    <a class="card" href="https://github.com/p3rmary/aave_dbt" target="_blank">
+      <div class="card-left">
+        <span class="card-title">Aave dbt Analytics</span>
+        <span class="card-meta">Created models that models parse on-chain event logs into structured, queryable tables ready for analysis.</span>
+        <div class="card-tags">
+          <span class="chip">Python</span>
+          <span class="chip">PostgreSQL</span>
+          <span class="chip">EVM</span>
+        </div>
+      </div>
+      <span class="arrow">↗</span>
+    </a>
+  </div>
+</section>
+  <section>
+    <p class="label">Tools I Use</p>
+    <div class="tools-grid">
+      <div class="tool"><span class="tool-dot"></span>SQL</div>
+      <div class="tool"><span class="tool-dot"></span>Python</div>
+      <div class="tool"><span class="tool-dot"></span>dbt</div>
+      <div class="tool"><span class="tool-dot"></span>Airflow</div>
+      <div class="tool"><span class="tool-dot"></span>Tableau</div>
+      <div class="tool"><span class="tool-dot"></span>Looker</div>
+      <div class="tool"><span class="tool-dot"></span>Power BI</div>
+      <div class="tool"><span class="tool-dot"></span>BigQuery</div>
+      <div class="tool"><span class="tool-dot"></span>Snowflake</div>
+      <div class="tool"><span class="tool-dot"></span>Pandas</div>
+      <div class="tool"><span class="tool-dot"></span>Postgres</div>
+      <div class="tool"><span class="tool-dot"></span>Git</div>
+    </div>
+  </section>
+
+  <section>
+    <p class="label">About</p>
+    <div class="card-list">
+      <div class="card" style="cursor:default;">
+        <div class="card-left" style="gap:10px;">
+          <span style="font-family:'Fraunces',serif;font-weight:200;font-size:0.9rem;line-height:1.7;color:var(--soft);">
+            I'm a data analyst and engineer who cares about data quality as much as the insights themselves.
+            Most of my work lives between the database and the dashboard — writing models, cleaning pipelines,
+            and making sure the numbers people see are ones they can trust.
+          </span>
+          <span class="card-meta" style="color:var(--muted);margin-top:4px;">Available for freelance &amp; contract work</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://x.com/_permary">Twitter ↗</a>
+      <a href="https://github.com/p3rmary">GitHub ↗</a>
+      <a href="mailto:permary7@outlook.com">Email ↗</a>
+    </div>
+    <span class="footer-right">Mary · 2026</span>
+  </footer>
+
+</div>
+</body>
+</html>
